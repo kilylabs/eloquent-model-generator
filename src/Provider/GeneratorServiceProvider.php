@@ -12,6 +12,7 @@ use Krlove\EloquentModelGenerator\Processor\FieldProcessor;
 use Krlove\EloquentModelGenerator\Processor\NamespaceProcessor;
 use Krlove\EloquentModelGenerator\Processor\RelationProcessor;
 use Krlove\EloquentModelGenerator\Processor\TableNameProcessor;
+use Krlove\EloquentModelGenerator\Processor\RulesProcessor;
 
 /**
  * Class GeneratorServiceProvider
@@ -37,6 +38,7 @@ class GeneratorServiceProvider extends ServiceProvider
             RelationProcessor::class,
             CustomPropertyProcessor::class,
             TableNameProcessor::class,
+            RulesProcessor::class,
             CustomPrimaryKeyProcessor::class,
         ], self::PROCESSOR_TAG);
 

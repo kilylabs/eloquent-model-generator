@@ -76,4 +76,8 @@ class FieldProcessor implements ProcessorInterface
     {
         return 5;
     }
+
+    public function getIsForBase() {
+        return false;
+    }
 }

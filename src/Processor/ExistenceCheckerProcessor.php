@@ -47,4 +47,8 @@ class ExistenceCheckerProcessor implements ProcessorInterface
     {
         return 8;
     }
+
+    public function getIsForBase() {
+        return false;
+    }
 }

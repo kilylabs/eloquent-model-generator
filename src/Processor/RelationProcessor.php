@@ -199,7 +199,7 @@ class RelationProcessor implements ProcessorInterface
         $name = Str::camel($reflectionObject->getShortName());
 
         $arguments = [
-            $model->getNamespace()->getNamespace() . '\\' . Str::singular(Str::studly($relation->getTableName()))
+            preg_replace('/_base\\\\/','',$model->getNamespace()->getNamespace() . '\\' . Str::singular(Str::studly($relation->getTableName())))
         ];
 
         if ($relation instanceof BelongsToMany) {
@@ -278,7 +278,7 @@ class RelationProcessor implements ProcessorInterface
      */
     protected function resolveArgument($actual, $default)
     {
-        return $actual === $default ? null : $actual;
+        return $actual === $default ? $actual : $actual;
     }
 
     /**
@@ -303,5 +303,9 @@ class RelationProcessor implements ProcessorInterface
         $prefix = preg_quote($prefix, '/');
 
         return preg_replace("/^$prefix/", '', $tableName);
+    }
+
+    public function getIsForBase() {
+        return false;
     }
 }

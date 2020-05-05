@@ -39,6 +39,12 @@ class Config
         return $this->has($key) ? $this->config[$key] : $default;
     }
 
+    public function set($key, $value)
+    {
+        return $this->config[$key] = $value;
+    }
+
+
     /**
      * @param string $key
      * @return bool

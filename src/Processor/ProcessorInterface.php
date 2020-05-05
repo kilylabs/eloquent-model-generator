@@ -21,4 +21,6 @@ interface ProcessorInterface
      * @return int
      */
     public function getPriority();
+
+    public function getIsForBase();
 }

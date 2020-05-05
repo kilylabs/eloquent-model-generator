@@ -27,4 +27,8 @@ class NamespaceProcessor implements ProcessorInterface
     {
         return 6;
     }
+
+    public function getIsForBase() {
+        return true;
+    }
 }

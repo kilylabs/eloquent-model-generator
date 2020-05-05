@@ -4,6 +4,7 @@ namespace Krlove\EloquentModelGenerator;
 
 use Krlove\EloquentModelGenerator\Exception\GeneratorException;
 use Krlove\EloquentModelGenerator\Model\EloquentModel;
+use Krlove\EloquentModelGenerator\Model\EloquentBaseModel;
 use Krlove\EloquentModelGenerator\Processor\ProcessorInterface;
 
 /**
@@ -28,6 +29,7 @@ class EloquentModelBuilder
         } else {
             $this->processors = $processors;
         }
+
     }
 
     /**
@@ -48,10 +50,30 @@ class EloquentModelBuilder
         return $model;
     }
 
+    public function createBaseModel(Config $config)
+    {
+        $model = new EloquentBaseModel();
+
+        $this->prepareBaseProcessors();
+
+        foreach ($this->processors as $processor) {
+            $processor->process($model, $config);
+        }
+
+        return $model;
+    }
+
     /**
      * Sort processors by priority
      */
-    protected function prepareProcessors()
+    protected function prepareProcessors($is_base=true)
+    {
+        $this->processors = array_filter($this->processors,function($item) {
+            return $item->getIsForBase();
+        });
+    }
+
+    protected function prepareBaseProcessors($is_base=true)
     {
         usort($this->processors, function (ProcessorInterface $one, ProcessorInterface $two) {
             if ($one->getPriority() == $two->getPriority()) {

@@ -90,4 +90,8 @@ class CustomPrimaryKeyProcessor implements ProcessorInterface
     {
         return 6;
     }
+
+    public function getIsForBase() {
+        return false;
+    }
 }

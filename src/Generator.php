@@ -45,6 +45,23 @@ class Generator
         $content = $model->render();
 
         $outputPath = $this->resolveOutputPath($config);
+        if(file_exists($outputPath)) return false;
+        if ($config->get('backup') && file_exists($outputPath)) {
+            rename($outputPath, $outputPath . '~');
+        }
+        file_put_contents($outputPath, $content);
+
+        return $model;
+    }
+
+    public function generateBaseModel(Config $config)
+    {
+        $this->registerUserTypes($config);
+
+        $model   = $this->builder->createBaseModel($config);
+        $content = $model->render();
+
+        $outputPath = $this->resolveOutputPath($config);
         if ($config->get('backup') && file_exists($outputPath)) {
             rename($outputPath, $outputPath . '~');
         }

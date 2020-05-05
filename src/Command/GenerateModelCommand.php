@@ -49,10 +49,22 @@ class GenerateModelCommand extends Command
     public function fire()
     {
         $config = $this->createConfig();
+        $baseConfig = clone $config;
+
+        $baseConfig->set('namespace',$config->get('namespace').'\\_base');
+        $baseConfig->set('base_class_name','ValidatedModel');
+        $baseConfig->set('output_path',$config->get('output_path').'/_base');
+        $baseConfig->set('class_name','Base'.$config->get('class_name'));
+
+        $config->set('base_class_name',$baseConfig->get('namespace').'\\'.$baseConfig->get('class_name'));
+
+        $baseModel = $this->generator->generateBaseModel($baseConfig);
+        $this->output->writeln(sprintf('Model %s generated', $baseModel->getName()->getName()));
 
         $model = $this->generator->generateModel($config);
-
-        $this->output->writeln(sprintf('Model %s generated', $model->getName()->getName()));
+        if($model) {
+            $this->output->writeln(sprintf('Model %s generated', $model->getName()->getName()));
+        }
     }
 
     /**

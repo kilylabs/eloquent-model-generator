@@ -9,6 +9,7 @@ use Krlove\CodeGenerator\Model\UseClassModel;
 use Krlove\EloquentModelGenerator\Config;
 use Krlove\EloquentModelGenerator\Helper\EmgHelper;
 use Krlove\EloquentModelGenerator\Model\EloquentModel;
+use Krlove\EloquentModelGenerator\Model\EloquentBaseModel;
 
 /**
  * Class TableNameProcessor
@@ -40,7 +41,9 @@ class TableNameProcessor implements ProcessorInterface
         $tableName     = $config->get('table_name');
 
         $model->setName(new ClassNameModel($className, $this->helper->getShortClassName($baseClassName)));
-        $model->addUses(new UseClassModel(ltrim($baseClassName, '\\')));
+        if(strpos($baseClassName,'\\') !== false) {
+            $model->addUses(new UseClassModel(ltrim($baseClassName, '\\')));
+        }
         $model->setTableName($tableName ?: $this->helper->getDefaultTableName($className));
 
         if ($model->getTableName() !== $this->helper->getDefaultTableName($className)) {
@@ -56,5 +59,9 @@ class TableNameProcessor implements ProcessorInterface
     public function getPriority()
     {
         return 10;
+    }
+
+    public function getIsForBase() {
+        return false;
     }
 }
