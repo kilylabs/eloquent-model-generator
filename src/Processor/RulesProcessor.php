@@ -92,10 +92,13 @@ class RulesProcessor implements ProcessorInterface
             $columnNamesDefault[$column->getName()] = $column->getDefault();
         }
 
+        //dd('class is: '.get_class($model));
+        //dd($columnNamesDefault);
+
         if(strpos(get_class($model),'Base')!==false) {
             $rules = new PropertyModel('attributes');
             $rules->setAccess('protected')
-                ->setValue(array_filter($columnNamesDefault))
+                ->setValue(array_filter($columnNamesDefault,fn($el) =>$el !== null))
                 ->setDocBlock(new DocBlockModel('@var array'));
             $model->addProperty($rules);
         }
